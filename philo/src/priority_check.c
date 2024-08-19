@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:59:53 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/19 00:53:43 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/19 17:52:21 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long	get_longest_starvation_time(void)
 {
-	t_philo **philos;
+	t_philo	**philos;
 	int		idx;
 	int		longest_starvation_time;
 	int		starvation_time;
@@ -38,9 +38,9 @@ long	get_longest_starvation_time(void)
 
 int	get_least_numof_meals(void)
 {
-	int			idx;
-	unsigned	least_numof_meals;
-	t_philo **philos;
+	int				idx;
+	unsigned int	least_numof_meals;
+	t_philo			**philos;
 
 	idx = 1;
 	philos = (*simulation_data())->philos;
@@ -60,14 +60,16 @@ int	get_least_numof_meals(void)
 
 int	has_priority(t_philo *philo)
 {
-	unsigned	least_numof_meals;
-	long		longest_starvation_time;
+	unsigned int	least_numof_meals;
+	int long		longest_starvation_time;
+	int long		starvation_time;
 
 	least_numof_meals = get_least_numof_meals();
 	longest_starvation_time = get_longest_starvation_time();
 	pthread_mutex_lock(philo->state_mutex);
+	starvation_time = get_time_from_start() - philo->last_meal_time;
 	if (philo->num_of_meals == least_numof_meals
-		&& (get_time_from_start() - philo->last_meal_time) >= longest_starvation_time)
+		&& starvation_time >= longest_starvation_time)
 	{
 		pthread_mutex_unlock(philo->state_mutex);
 		return (1);

@@ -6,43 +6,18 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 22:44:59 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/19 00:50:32 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/19 17:23:15 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	simulation_is_over(void)
-{
-	pthread_mutex_lock((*simulation_data())->sim_over_mutex);
-	if ((*simulation_data())->sim_over == 1)
-	{
-		pthread_mutex_unlock((*simulation_data())->sim_over_mutex);
-		return (1);
-	}
-	pthread_mutex_unlock((*simulation_data())->sim_over_mutex);
-	return (0);
-}
-
-int	next_fork(unsigned int number, int num_of_philos)
-{
-	return (number % num_of_philos);
-}
-
-void	put_curr_state(int philo_number, char *msg)
-{
-	int	curr_time;
-
-	curr_time = get_time_from_start();
-	printf("%d %d %s\n", curr_time, philo_number, msg);
-}
 
 void	get_forks(t_philo *philo, int *first_fork, int *second_fork)
 {
 	int	temp;
 
 	*first_fork = philo->number - 1;
-	*second_fork = next_fork(philo->number, (*simulation_data())->num_of_philos);
+	*second_fork = philo->number % (*simulation_data())->num_of_philos;
 	if ((unsigned)(philo->number) == (*simulation_data())->num_of_philos)
 	{
 		temp = *first_fork;

@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 03:29:22 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/16 03:06:24 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/19 17:54:14 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ int	start_simulation(t_simulation_data *simulation_data)
 	simulation_data->start_time = get_curr_time_ms();
 	while (simulation_data->philos[idx])
 	{
-		pthread_create(&simulation_data->philos[idx]->id, NULL, 
-				(void *)routine, (void *)simulation_data->philos[idx]);
+		pthread_create(&simulation_data->philos[idx]->id, NULL,
+			(void *)routine, (void *)simulation_data->philos[idx]);
 		idx++;
 	}
-	monitor(simulation_data);
+	monitor();
 	idx = 0;
 	while (simulation_data->philos[idx])
 		pthread_join(simulation_data->philos[idx++]->id, NULL);
