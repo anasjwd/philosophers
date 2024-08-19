@@ -6,7 +6,7 @@
 #    By: ajawad <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/25 10:07:38 by ajawad            #+#    #+#              #
-#    Updated: 2024/08/16 03:07:11 by ajawad           ###   ########.fr        #
+#    Updated: 2024/08/19 00:51:40 by ajawad           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	=	philo
 HEADER	=	./includes/minishell.h
 
 CFILES	=	philo.c printing.c parsing.c start_simulation.c routine.c \
-			actions.c utils.c monitor.c
+			actions.c utils.c monitor.c priority_check.c
 SRC		=	$(addprefix src/,$(CFILES))
 OBJS	=	${SRC:.c=.o}
 

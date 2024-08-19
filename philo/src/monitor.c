@@ -6,11 +6,40 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 02:22:50 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/17 10:00:20 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/19 03:41:32 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	all_philosophers_done_eating(t_philo **philos)
+{
+	int	idx;
+
+	idx = 0;
+	while (philos[idx])
+	{
+		if (philos[idx]->num_of_meals != (*simulation_data())->num_of_meals)
+			return (0);
+		idx++;
+	}
+	return (1);
+}
+
+int	any_philosopher_starved(t_philo **philos)
+{
+	int	idx;
+
+	idx = 0;
+	while (philos[idx])
+	{
+		if (get_time_from_start() - philos[idx]->last_meal_time
+				> (*simulation_data())->time_to_die)
+			return (1);
+		idx++;
+	}
+	return (0);
+}
 
 int	monitor(t_simulation_data *simulation_data)
 {

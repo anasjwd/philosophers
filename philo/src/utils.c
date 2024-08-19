@@ -6,11 +6,20 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 21:41:25 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/15 02:34:20 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/18 22:18:35 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	msleep(size_t ms)
+{
+	size_t	start;
+
+	start = get_time_from_start();
+	while (get_time_from_start() - start < ms)
+		usleep(1);
+}
 
 long	get_time_in_milliseconds(struct timeval *tv)
 {

@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 22:43:57 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/16 03:08:55 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/19 03:31:13 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_simulation_data
 	unsigned int	num_of_meals;
 	int				start_time;
 	int				sim_over;
+	int				numof_philos_ended_eating;
 	pthread_mutex_t	*sim_over_mutex;
 	t_philo			**philos;
 }				t_simulation_data;
@@ -50,6 +51,8 @@ t_simulation_data	**simulation_data(void);
 int					*return_value(void);
 int					monitor(t_simulation_data *simulation_data);
 void				put_curr_state(int philo_number, char *msg);
+void				msleep(size_t ms);
+int					has_priority(t_philo *philo);
 
 /*Parsing*/
 int					check_num_of_arguments(int ac);
