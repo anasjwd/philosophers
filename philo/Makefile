@@ -6,7 +6,7 @@
 #    By: ajawad <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/25 10:07:38 by ajawad            #+#    #+#              #
-#    Updated: 2024/08/19 17:16:41 by ajawad           ###   ########.fr        #
+#    Updated: 2024/08/19 19:49:40 by ajawad           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,12 @@ NAME	=	philo
 HEADER	=	./includes/minishell.h
 
 CFILES	=	philo.c printing.c parsing.c start_simulation.c routine.c \
-			actions.c utils.c monitor.c priority_check.c
+			actions.c utils.c monitor.c priority_check.c cleanup.c
 SRC		=	$(addprefix src/,$(CFILES))
 OBJS	=	${SRC:.c=.o}
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror #-g3 -fsanitize=thread
+CFLAGS	=	-Wall -Wextra -Werror -g3 -fsanitize=address
 PFLAG	=	-O3 -pthread
 RM		=	rm -f
 

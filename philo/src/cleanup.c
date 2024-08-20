@@ -1,41 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.c                                         :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 03:29:11 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/19 19:48:28 by ajawad           ###   ########.fr       */
+/*   Created: 2024/08/19 18:35:13 by ajawad            #+#    #+#             */
+/*   Updated: 2024/08/19 19:46:40 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_strlen(char *str)
+void	do_cleanup(t_simulation_data *simulation_data)
 {
-	int	len;
+	int	idx;
 
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	write(fd, str, ft_strlen(str));
-}
-
-void	put_curr_state(int philo_number, char *msg)
-{
-	int	curr_time;
-
-	curr_time = get_time_from_start();
-	printf("%d %d %s\n", curr_time, philo_number, msg);
+	idx = 0;
+	while (simulation_data->philos && simulation_data->philos[idx])
+	{
+		free(simulation_data->philos[idx]->state_mutex);
+		free(simulation_data->philos[idx]->fork);
+		free(simulation_data->philos[idx]);
+		idx++;
+	}
+	free(simulation_data->philos);
+	free(simulation_data->sim_over_mutex);
+	free(simulation_data);
 }
