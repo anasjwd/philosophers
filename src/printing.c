@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 03:29:11 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/19 19:48:28 by ajawad           ###   ########.fr       */
+/*   Created: 2024/08/28 15:01:11 by ajawad            #+#    #+#             */
+/*   Updated: 2024/08/28 16:02:53 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,26 @@ int	ft_strlen(char *str)
 	return (len);
 }
 
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
 void	ft_putstr_fd(char *str, int fd)
 {
 	write(fd, str, ft_strlen(str));
 }
 
-void	put_curr_state(int philo_number, char *msg)
+int	print_curr_state(t_philo *philo, char *state)
 {
-	int	curr_time;
+	if (simulation_is_over(philo))
+		return (1);
+	pthread_mutex_lock(philo->data->printing_mutex);
+	printf("%ld %d %s\n", get_curr_time() - philo->data->start_time,
+			philo->number, state);
+	pthread_mutex_unlock(philo->data->printing_mutex);
+	return (0);
+}
 
-	curr_time = get_time_from_start();
-	printf("%d %d %s\n", curr_time, philo_number, msg);
+void	print_death_msg(t_philo *philo)
+{
+	pthread_mutex_lock(philo->data->printing_mutex);
+	printf("%ld %d died\n", get_curr_time() - philo->data->start_time,
+			philo->number);
+	pthread_mutex_unlock(philo->data->printing_mutex);
 }

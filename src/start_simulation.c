@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   start_simulation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 18:35:13 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/19 19:46:40 by ajawad           ###   ########.fr       */
+/*   Created: 2024/08/28 14:41:11 by ajawad            #+#    #+#             */
+/*   Updated: 2024/08/29 09:14:56 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	do_cleanup(t_simulation_data *simulation_data)
+int	start_simulation(t_data *data)
 {
 	int	idx;
 
-	idx = 0;
-	while (simulation_data->philos && simulation_data->philos[idx])
+	idx = -1;
+	data->start_time = get_curr_time();
+	while (data->philos[++idx])
 	{
-		free(simulation_data->philos[idx]->state_mutex);
-		free(simulation_data->philos[idx]->fork);
-		free(simulation_data->philos[idx]);
+		pthread_create(&data->philos[idx]->id, NULL,
+				(void *)routine, (void *)data->philos[idx]);
+			//TODO: check if this fails
+	}
+	monitor(data);
+	idx = 0;
+	while (data->philos[idx])
+	{
+		pthread_join(data->philos[idx]->id, NULL);
+			//TODO: check if this fails
 		idx++;
 	}
-	free(simulation_data->philos);
-	free(simulation_data->sim_over_mutex);
-	free(simulation_data);
+	return (0);
 }

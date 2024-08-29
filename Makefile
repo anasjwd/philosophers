@@ -6,21 +6,21 @@
 #    By: ajawad <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/25 10:07:38 by ajawad            #+#    #+#              #
-#    Updated: 2024/08/19 19:49:40 by ajawad           ###   ########.fr        #
+#    Updated: 2024/08/29 09:15:54 by ajawad           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	philo
 
-HEADER	=	./includes/minishell.h
+HEADER	=	./includes/philo.h
 
-CFILES	=	philo.c printing.c parsing.c start_simulation.c routine.c \
-			actions.c utils.c monitor.c priority_check.c cleanup.c
+CFILES	=	main.c printing.c utils.c parsing.c initialize.c \
+			start_simulation.c routine.c monitor.c
 SRC		=	$(addprefix src/,$(CFILES))
 OBJS	=	${SRC:.c=.o}
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror #-g3 -fsanitize=thread
 PFLAG	=	-O3 -pthread
 RM		=	rm -f
 
@@ -29,7 +29,7 @@ all: ${NAME}
 %.o:%.c
 	${CC} ${CFLAGS} -Iincludes -c $< -o $@
 
-${NAME}	:	${OBJS}
+${NAME}	:	${OBJS} ${HEADER}
 	${CC} ${CFLAGS} ${OBJS} ${PFLAG} -o ${NAME}
 
 clean:
@@ -40,5 +40,5 @@ fclean: clean
 
 re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean
 .SECONDARY: ${OBJS}
