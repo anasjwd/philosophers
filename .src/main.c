@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start_simulation.c                                 :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 14:41:11 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/29 09:14:56 by ajawad           ###   ########.fr       */
+/*   Created: 2024/08/28 14:15:49 by ajawad            #+#    #+#             */
+/*   Updated: 2024/08/28 20:04:59 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start_simulation(t_data *data)
+int	main(int ac, char **av)
 {
-	int	idx;
+	t_data	data;
 
-	idx = -1;
-	data->start_time = get_curr_time();
-	while (data->philos[++idx])
-	{
-		pthread_create(&data->philos[idx]->id, NULL,
-				(void *)routine, (void *)data->philos[idx]);
-			//TODO: check if this fails
-	}
-	monitor(data);
-	idx = 0;
-	while (data->philos[idx])
-	{
-		pthread_join(data->philos[idx]->id, NULL);
-			//TODO: check if this fails
-		idx++;
-	}
+	if (check_numof_args(ac))
+		return (1);
+	if (parsing(ac, av, &data))
+		return (1);
+	if (initializing(&data))
+		return (1);
+	if (start_simulation(&data))
+		return (1);
 	return (0);
 }

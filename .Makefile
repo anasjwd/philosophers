@@ -6,7 +6,7 @@
 #    By: ajawad <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/25 10:07:38 by ajawad            #+#    #+#              #
-#    Updated: 2024/08/29 09:15:54 by ajawad           ###   ########.fr        #
+#    Updated: 2024/08/31 02:22:55 by ajawad           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC		=	$(addprefix src/,$(CFILES))
 OBJS	=	${SRC:.c=.o}
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror #-g3 -fsanitize=thread
+CFLAGS	=	-Wall -Wextra -Werror -g3 -fsanitize=thread
 PFLAG	=	-O3 -pthread
 RM		=	rm -f
 

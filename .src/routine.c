@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:20:54 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/29 11:17:46 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/29 14:32:43 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ int	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
 	if (print_curr_state(philo, "has taken a fork"))
-	{
-		pthread_mutex_unlock(philo->left_fork);
-		return (1);
-	}
+		return (pthread_mutex_unlock(philo->left_fork), 1);
 	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(philo->stats_mutex);
+	philo->last_meal_time = get_curr_time();
+	philo->numof_meals++;
+	pthread_mutex_unlock(philo->stats_mutex);
 	if (print_curr_state(philo, "has taken a fork"))
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -33,10 +34,6 @@ int	ft_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->right_fork);
 		return (1);
 	}
-	pthread_mutex_lock(philo->stats_mutex);
-	philo->last_meal_time = get_curr_time();
-	philo->numof_meals++;
-	pthread_mutex_unlock(philo->stats_mutex);
 	msleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -63,13 +60,6 @@ void	*routine(void *holder)
 	t_philo	*philo;
 
 	philo = (t_philo *)holder;
-	if (philo->data->numof_philos == 1)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		print_curr_state(philo, "has taken a fork");
-		msleep(philo->data->time_to_die);
-		return (NULL);
-	}
 	if (philo->number % 2 == 0)
 		msleep(60);
 	while (TRUE)
@@ -80,7 +70,8 @@ void	*routine(void *holder)
 			return (NULL);
 		if (ft_think(philo))
 			return (NULL);
-		msleep((philo->data->time_to_die - (get_curr_time() - philo->last_meal_time)) / 2);
+		msleep((philo->data->time_to_die
+				- (get_curr_time() - philo->last_meal_time)) / 2);
 	}
 	return (NULL);
 }

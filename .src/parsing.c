@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:17:35 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/29 11:22:00 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/31 02:42:19 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*ft_strcpy(char *dst, char *src)
 	return (dst);
 }
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
-	int		i;
-	long	result;
+	int				i;
+	unsigned long	result;
 
 	if (nptr == NULL)
 		return (INVALID);

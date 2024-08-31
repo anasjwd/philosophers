@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 06:45:05 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/29 09:22:39 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/31 02:22:35 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	any_philos_starved(t_data *data)
 
 void	monitor(t_data *data)
 {
+	if (data->numof_philos == 0)
+		return ;
 	while (TRUE)
 	{
 		if (philos_done_eating(data))
