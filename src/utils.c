@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:04:49 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/29 09:24:44 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/29 14:30:25 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	msleep(size_t ms)
 
 	start = get_curr_time();
 	while ((get_curr_time() - start) < ms)
-		usleep(500); //100
+		usleep(500);
 }
 
 int	simulation_is_over(t_philo *philo)
@@ -52,4 +52,19 @@ int	simulation_is_over(t_philo *philo)
 	}
 	pthread_mutex_unlock(philo->data->sim_over_mutex);
 	return (0);
+}
+
+void	destroy_philos(t_philo **philos)
+{
+	int	idx;
+
+	idx = 0;
+	while (philos[idx])
+	{
+		free(philos[idx]->left_fork);
+		free(philos[idx]->stats_mutex);
+		free(philos[idx]);
+		idx++;
+	}
+	free(philos);
 }

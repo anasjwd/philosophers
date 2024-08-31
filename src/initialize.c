@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:46:50 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/29 09:19:29 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/29 14:18:56 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ pthread_mutex_t	*initialize_mutex(void)
 	return (mutex);
 }
 
-int	initialize_right_forks(t_philo **philos, int numof_philos)
+void	initialize_right_forks(t_philo **philos, int numof_philos)
 {
 	int				idx;
 	pthread_mutex_t	*holder;
@@ -40,18 +40,17 @@ int	initialize_right_forks(t_philo **philos, int numof_philos)
 		}
 		idx++;
 	}
-	return (0);
 }
 
 int	initialize_philos(t_data *data)
 {
 	int	idx;
 
-	idx = 0;
+	idx = -1;
 	data->philos = alloc(sizeof(t_philo *) * (data->numof_philos + 1));
 	if (data->philos == NULL)
 		return (1);
-	while (idx < data->numof_philos)
+	while (++idx < data->numof_philos)
 	{
 		data->philos[idx] = alloc(sizeof(t_philo));
 		if (data->philos[idx] == NULL)
@@ -60,26 +59,36 @@ int	initialize_philos(t_data *data)
 		data->philos[idx]->numof_meals = 0;
 		data->philos[idx]->last_meal_time = get_curr_time();
 		data->philos[idx]->left_fork = initialize_mutex();
-			// TODO:check for return value
 		data->philos[idx]->stats_mutex = initialize_mutex();
-			// TODO:check for return value
+		if (!data->philos[idx]->left_fork || !data->philos[idx]->stats_mutex)
+		{
+			data->philos[idx + 1] = NULL;
+			destroy_philos(data->philos);
+			return (1);
+		}
 		data->philos[idx]->data = data;
-		idx++;
 	}
-	data->philos[idx] = NULL;
-	return (0);
+	return (data->philos[idx] = NULL, 0);
 }
 
 int	initializing(t_data *data)
 {
 	data->sim_over = 0;
 	data->sim_over_mutex = initialize_mutex();
-		// TODO:check for return value
+	if (data->sim_over_mutex == NULL)
+		return (1);
 	data->printing_mutex = initialize_mutex();
-		// TODO:check for return value
-	initialize_philos(data);
-		// TODO:check for return value
+	if (data->printing_mutex == NULL)
+	{
+		free(data->sim_over_mutex);
+		return (1);
+	}
+	if (initialize_philos(data))
+	{
+		free(data->sim_over_mutex);
+		free(data->printing_mutex);
+		return (1);
+	}
 	initialize_right_forks(data->philos, data->numof_philos);
-		// TODO:check for return value
 	return (0);
 }

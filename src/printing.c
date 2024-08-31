@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 15:01:11 by ajawad            #+#    #+#             */
-/*   Updated: 2024/08/28 16:02:53 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/08/29 14:30:04 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	print_curr_state(t_philo *philo, char *state)
 		return (1);
 	pthread_mutex_lock(philo->data->printing_mutex);
 	printf("%ld %d %s\n", get_curr_time() - philo->data->start_time,
-			philo->number, state);
+		philo->number, state);
 	pthread_mutex_unlock(philo->data->printing_mutex);
 	return (0);
 }
@@ -42,6 +42,6 @@ void	print_death_msg(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->printing_mutex);
 	printf("%ld %d died\n", get_curr_time() - philo->data->start_time,
-			philo->number);
+		philo->number);
 	pthread_mutex_unlock(philo->data->printing_mutex);
 }
